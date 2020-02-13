@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+
+        <!-- Title -->
+        <h1 class="mt-4"> {{object.title}} </h1>
+
+        <!-- Author -->
+        <p class="lead">
+          by
+          <a href="{% url 'users:user_detail' pk=object.user.pk %}">{{object.user}}</a>
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{object.created_date}}</p>
+
+        <hr>
+
+        {% if object.image %}
+        
+        <img class="img-fluid rounded" src=" {{ object.image.url }} " alt="">
+        
+        {% endif %}
+
+        
+
+        <hr>
+
+        <!-- Post Content -->
+
+
+        <p>{{object.content}}</p>
+
+        <hr>
+
+        <!-- Comments Form -->
+        <div class="card my-4">
+          <h5 class="card-header">Leave a Answer:</h5>
+          <div class="card-body">
+            <form method="POST" action="{% url 'questions:answer_create' pk=object.pk %}"> {% csrf_token %}
+              <div class="form-group">
+                <textarea class="form-control" name="answer" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+
+  
+        
+
+
+        {% for answer in answers %}
+        
+        
+        <!-- Comment with nested comments -->
+        <div class="media mb-4">
+          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+          <div class="media-body">
+            <h5 class="mt-0">{{answer.user}}</h5>
+            {{answer.question_title}}
+            
+        
+            
+
+
+          </div>
+        </div>
+
+      {% endfor %}
+      </div>
+
+
+{% endblock body %}

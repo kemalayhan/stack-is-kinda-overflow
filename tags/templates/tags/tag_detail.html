@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+  <!-- Page Content -->
+  <div class="container">
+
+        <!-- Heading Row -->
+        <div class="row align-items-center my-5">
+          <div class="col-lg-5">
+            {% if object.tag_image %}
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{object.tag_image.url}}" style =" heigh:300px; width:300px;">
+            {% endif %}
+
+
+            
+          </div>
+          <!-- /.col-lg-8 -->
+          <div class="col-lg-5">
+            <h1 class="font-weight-light">{{object.title}}</h1>
+            <p>{{object.content}}</p>
+          
+          </div>
+          <!-- /.col-md-4 -->
+        </div>
+        <!-- /.row -->
+    
+        <!-- Call to Action Well -->
+        <div class="card text-white bg-secondary my-5 py-4 text-center">
+          <div class="card-body">
+            <p class="text-white m-0">{{object.title}} ile ilgili sorulmuş sorular</p>
+          </div>
+        </div>
+
+{% for question in questions %}
+<a href="{% url 'questions:question_detail' pk=question.pk %}">
+    <li class="list-group-item d-flex justify-content-between align-items-center"> {{question.title|truncatechars:30  }} <span class="badge badge-primary badge-pill">12</span>
+  </li>
+  </a>
+
+{% endfor %}
+
+
+{% endblock body %}
+

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container">
+  <h1 class="my-4">Questions
+  </h1>
+
+  {% if request.user.is_authenticated %}
+   <a href="{% url 'questions:question_create' %}" class="btn btn-primary" style="background-color: #314d47;">Create Question</a>
+  <hr>
+  
+  {% endif %}
+
+ 
+  <form method="POST" action="."> {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="inputEmail4">Search in Titles</label>
+        <input type="text" name="title" class="form-control"  placeholder="Write Title">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Search in Tags</label>
+        <input type="text" name="tag" class="form-control"  placeholder="Write Tag">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="inputPassword4">Search in Users</label>
+          <input type="text" name="user" class="form-control" placeholder="Write Username">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-danger" style="background-color: #314d47;"> Search</button>
+  </form>
+
+  <div class="list-group">
+
+    {% for question in object_list %}
+
+
+    <a href="{% url 'questions:question_detail' pk=question.pk %}">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Rank: {{question.question_rank}} --------- {{question.title|truncatechars:30 }} <span
+          class="badge badge-primary badge-pill">{{question.question_rank}}</span>
+      </li>
+    </a>
+
+
+
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock body %}

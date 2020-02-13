@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container">
+
+    <!-- Page Heading -->
+    <h1 class="my-4">Tags
+      <small>Programming Language</small>
+    </h1>
+  
+
+    <div class="row">
+      {% for tag in object_list  %}
+      <div class="col-lg-4 col-sm-6 mb-4">
+      
+        <div class="card h-100">
+        
+          <a href=" {% url 'tags:tag_detail' pk=tag.pk %}">
+            {% if tag.tag_image %}
+            <img class="card-img-top" src="{{tag.tag_image.url}}">
+            {% endif %}  
+            
+            </a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="{% url 'tags:tag_detail' pk=tag.pk %}"> {{ tag.title }}</a>
+            </h4>
+            <p class="card-text">{{tag.content|truncatewords:30}}</p>     
+          </div>     
+        </div>
+      </div>
+      {% endfor %}
+</div>
+
+
+
+{% endblock body %}
+
