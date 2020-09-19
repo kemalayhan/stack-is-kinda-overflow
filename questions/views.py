@@ -69,12 +69,12 @@ class QuestionDetailView(DetailView):
         return context
 
 
-class QuestinUpdateView(UpdateView):
+class QuestinUpdateView(LoginRequiredMixin, UpdateView):
     model = Question
     form_class = QuestionCreateForm
 
 
-class AnswerCreateView(CreateView):
+class AnswerCreateView(LoginRequiredMixin, CreateView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
