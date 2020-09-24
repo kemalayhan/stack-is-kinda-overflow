@@ -1,4 +1,4 @@
-{% include "includes/navbar.html" %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,19 +11,18 @@
 
 </head>
 
-<style>
-
-.mybgcolor {
-    background-color: #ffffff  !important;
-background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-}
-
-</style>
+<body>
+    {% include "includes/navbar.html" %}
     
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
     {% block body %}
-  
 
     
     {% endblock body %}
