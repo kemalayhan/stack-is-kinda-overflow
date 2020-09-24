@@ -216,7 +216,7 @@ class AnswerRank(View):
                     answer.increase_rank()
                     messages.warning(request, 'You canceled your old vote')
                     return HttpResponseRedirect(question.get_absolute_url())
-                
+
                 else:
                     messages.warning(request, 'You cant vote')
                     return HttpResponseRedirect(question.get_absolute_url())
