@@ -5,8 +5,6 @@ from django.shortcuts import reverse
 from tags.models import Tag
 
 
-
-
 class Question(models.Model):
     user            = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title           = models.CharField(max_length=300)

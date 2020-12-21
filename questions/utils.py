@@ -37,6 +37,12 @@ def filter_question(title=None,
     return qs
 
 
+# In this Mixin I get voted parent object
+# which means is it a question object or answer object ?
+# Then i get vote object. Vote object has 3 fields.
+# User, parent object(question or answer) and value(increase or decrease)
+# So i can check which user vote which value and decrease or increase rank
+
 class RankMixin(LoginRequiredMixin):
     vote_model = None # QuestionVote or AnswerVote
 
@@ -90,13 +96,11 @@ class RankMixin(LoginRequiredMixin):
                     vote_object.save()
                     voted_parent.increase_rank()
                     messages.success(request, 'You vote increase')
-                    print('AAAAAAAAAAA')
                 elif user_vote == 'decrease':
                     vote_object.vote_value = 'decrease'
                     vote_object.save()
                     voted_parent.decrease_rank()
                     messages.success(request, 'You vote decrease')
-                    print('BBBBBBBBBBBBB')
                 return HttpResponseRedirect(voted_question.get_absolute_url())
 
             elif vote_object.vote_value == 'increase' and user_vote == 'decrease':
@@ -104,18 +108,15 @@ class RankMixin(LoginRequiredMixin):
                 vote_object.save()
                 voted_parent.decrease_rank()
                 messages.info(request, 'You canceled your old vote')
-                print('CCCCCCCCCCCCC')
 
             elif vote_object.vote_value == 'decrease' and user_vote == 'increase':
                 vote_object.vote_value = 'draft'
                 vote_object.save()
                 voted_parent.increase_rank()
                 messages.info(request, 'You canceled your old vote')
-                print('DDDDDDDDDDDDD')
 
             else:
                 messages.info(request, 'Something goes wrong')
-                print('EEEEEEEEEEEEEE')
 
             return HttpResponseRedirect(voted_question.get_absolute_url())
 
@@ -126,5 +127,4 @@ class RankMixin(LoginRequiredMixin):
                 vote_value = user_vote
             )
             messages.success(request, 'You successfully vote')
-            print('FFFFFFFFFFFFFFFFFFF')
             return HttpResponseRedirect(voted_question.get_absolute_url())
