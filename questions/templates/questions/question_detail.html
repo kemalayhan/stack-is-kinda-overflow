@@ -34,17 +34,17 @@
       <p>{{ object.content }}</p>
 
       <hr>
-      <p>Score of this question: <b>{{ object.question_rank }}</b> Your last choice: {{question_vote.question_vote}}</p>
+      <p>Score of this question: <b>{{ object.question_rank }}</b> Your last choice: {{question_vote.vote_value}}</p>
       <form action="{% url 'questions:question_rank' pk=object.pk %}" method="POST">{% csrf_token %}
-        
+
         <div class="form-check-inline">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" value="decrease" name="question_vote">Decrease
+            <input type="radio" class="form-check-input" value="decrease" name="vote">Decrease
           </label>
         </div>
         <div class="form-check-inline">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" value="increase" name="question_vote">Increase
+            <input type="radio" class="form-check-input" value="increase" name="vote">Increase
           </label>
         </div>
         <button type="submit" class="btn btn-sm btn-warning">Vote</button>
@@ -69,17 +69,17 @@
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/40x40" alt="">
         <div class="media-body">
           <h5 class="mt-0"> {{ answer.user }} <small> on {{answer.created_date}}</small></h5>
-          {{ answer.content }} 
+          {{ answer.content }}
           <form action="{% url 'questions:answer_rank' pk=object.pk answer_pk=answer.pk %}" method="POST">{% csrf_token %}
-            Score of this answer: <b>{{answer.answer_rank}}</b> 
+            Score of this answer: <b>{{answer.answer_rank}}</b>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" value="decrease" name="answer_vote">Decrease
+                <input type="radio" class="form-check-input" value="decrease" name="vote">Decrease
               </label>
             </div>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" value="increase" name="answer_vote">Increase
+                <input type="radio" class="form-check-input" value="increase" name="vote">Increase
               </label>
             </div>
             <button type="submit" class="btn btn-sm btn-warning">Vote</button>
