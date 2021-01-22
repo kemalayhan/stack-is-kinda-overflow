@@ -20,5 +20,14 @@ class QuestionAnswerForm(forms.ModelForm):
         fields = ['content']
 
         widgets = {
-            'content' : forms.Textarea(attrs={'rows':2})
+            'content': forms.Textarea(attrs={'rows': 2})
         }
+
+# class QuestionFilterForm(forms.Form):
+#     title = forms.CharField()
+#     tag = forms.CharField()
+#     user = forms.CharField()
+#     min_date = forms.CharField()
+#     max_date = forms.CharField()
+#     min_rank = forms.CharField()
+#     max_rank = forms.CharField()

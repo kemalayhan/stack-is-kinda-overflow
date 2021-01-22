@@ -5,36 +5,9 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 
 
-def is_valid_queryparam(param):
-    return param != '' and param is not None
+def filter_question(queryset, **fields):
+    return queryset.filter(**{k: v for k, v in fields.items() if v})
 
-def filter_question(title=None,
-            tag=None,
-            user_search=None,
-            min_date=None,
-            max_date=None,
-            min_rank=None,
-            max_rank=None):
-    qs = Question.objects.all()
-
-    if is_valid_queryparam(title):
-        qs = qs.filter(title__icontains=title)
-    if is_valid_queryparam(tag):
-        qs = qs.filter(tag__title__icontains=tag)
-    if is_valid_queryparam(user_search):
-        qs = qs.filter(user__username__icontains=user_search)
-    if is_valid_queryparam(min_date):
-        qs = qs.filter(created_date__gte=min_date)
-    if is_valid_queryparam(max_date):
-        qs = qs.filter(created_date__lte=max_date)
-    if is_valid_queryparam(min_rank):
-        qs = qs.filter(question_rank__gte=min_rank)
-    if is_valid_queryparam(min_rank):
-        qs = qs.filter(question_rank__gte=min_rank)
-    if is_valid_queryparam(max_rank):
-        qs = qs.filter(question_rank__lte=max_rank)
-
-    return qs
 
 
 # In this Mixin I get voted parent object
@@ -43,8 +16,8 @@ def filter_question(title=None,
 # User, parent object(question or answer) and value(increase or decrease)
 # So i can check which user vote which value and decrease or increase rank
 
-class RankMixin(LoginRequiredMixin):
-    vote_model = None # QuestionVote or AnswerVote
+class RankMixin(LoginRequiredMixin):    # usecases
+    vote_model = None   # QuestionVote or AnswerVote
 
     # Use this method to return get_absolute_url
     def voted_question(self):
@@ -76,17 +49,15 @@ class RankMixin(LoginRequiredMixin):
 
     def post(self, request, *args, **kwargs):
         voted_question = self.voted_question()
-        user_vote = self.request.POST.get('vote') # The new value of user's vote
-        print("USER VOTE",user_vote)
+        # The new value of user's vote (below)
+        user_vote = self.request.POST.get('vote')
+
         if user_vote is None:
             messages.warning(request, 'You didnt select choice of vote')
             return HttpResponseRedirect(voted_question.get_absolute_url())
 
-
         voted_parent = self.voted_parent()
-        print('voted_parent', voted_parent)
         vote_object = self.vote_object()
-        print('vote_object', vote_object)
 
         if vote_object.exists():
             vote_object = vote_object.first()
@@ -122,9 +93,9 @@ class RankMixin(LoginRequiredMixin):
 
         else:
             vote_object = self.vote_model.objects.create(
-                user = self.request.user,
-                voted_parent = voted_parent,
-                vote_value = user_vote
+                user=self.request.user,
+                voted_parent=voted_parent,
+                vote_value=user_vote
             )
             messages.success(request, 'You successfully vote')
             return HttpResponseRedirect(voted_question.get_absolute_url())

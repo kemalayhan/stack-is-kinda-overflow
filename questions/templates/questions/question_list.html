@@ -40,11 +40,11 @@
       </div>
       <div class="form-group col-md-3">
         <label>Search by Min Rank</label>
-        <input type="number" name="min_rank" class="form-control" placeholder="Max Date">
+        <input type="number" name="min_rank" class="form-control" placeholder="Min Rank">
       </div>
       <div class="form-group col-md-3">
         <label>Search by Max Rank</label>
-        <input type="number" name="max_rank" class="form-control" placeholder="Max Date">
+        <input type="number" name="max_rank" class="form-control" placeholder="Max Rank">
       </div>
 
     </div>
@@ -80,7 +80,7 @@
             {% endfor %} </td>
           <td> {{ question.user}} </td>
           <td> {{ question.created_date}} </td>
-          <td> {{ question.question_rank}} </td>
+          <td> {{ question.rank}} </td>
           <td> {{ question.answers.count }} </td>
         </tr>
         {% endfor %}

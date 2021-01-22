@@ -7,7 +7,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="homepage.html"), name="homepage"),
+    path(
+        '', TemplateView.as_view(template_name="homepage.html"), name="homepage"
+    ),
     path('users/', include('users.urls')),
     path('questions/', include('questions.urls')),
     path('tags/', include('tags.urls')),
@@ -17,4 +19,6 @@ urlpatterns = [
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
